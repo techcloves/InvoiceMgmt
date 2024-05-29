@@ -54,7 +54,7 @@ public class InvoiceController {
 	        }
 		  }
 
-	@GetMapping(value = "/getInvoice/{id}")
+	@GetMapping(value = "/getInvoice/{invoiceNumber}")
 	public ResponseEntity<Invoice> findById(@PathVariable String invoiceNumber) {
 
 		Optional<Invoice> data = repository.findByInvoiceNumber(invoiceNumber);
