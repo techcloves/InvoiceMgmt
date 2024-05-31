@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inv.model.ApplicationParameter;
+import com.inv.model.Invoice;
 import com.inv.repo.ApplicationParameterRepo;
 
 
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/appParameter")
 public class ApplicationParametersController {
 
 		
@@ -32,7 +33,7 @@ public class ApplicationParametersController {
 	ApplicationParameterRepo repository;
 	
 	
-	@GetMapping("/appParameter")
+	@GetMapping("/")
 	public List<ApplicationParameter> getAllEntries() {
 
 		List<ApplicationParameter> entries = new ArrayList<>();
@@ -41,7 +42,9 @@ public class ApplicationParametersController {
 		return entries;
 	}
 	
-	@PutMapping("/appParameter/{id}")
+
+	
+	@PutMapping("/update/{id}")
 	public ResponseEntity<ApplicationParameter> updateResource(@PathVariable long id, @RequestBody ApplicationParameter entry) {
 		
 		Optional<ApplicationParameter> resourceData = repository.findById(id);
@@ -58,7 +61,28 @@ public class ApplicationParametersController {
 		}
 		}
 	
-	@DeleteMapping("/appParameter/delete")
+	@PutMapping("/updateAll")
+	public ResponseEntity<ApplicationParameter> updateAll(@RequestBody List<ApplicationParameter> entries) {
+		
+	entries.forEach((entry) -> 
+	{
+		Optional<ApplicationParameter> resourceData = repository.findById(entry.id);
+		if (resourceData.isPresent()) {
+			ApplicationParameter _resource = resourceData.get();
+			_resource.keyField = entry.keyField;
+			_resource.keyValue = entry.keyValue;
+			repository.save(_resource);
+		}
+	}); 
+	return new ResponseEntity<>(HttpStatus.OK);
+			
+	
+	}
+		
+		
+		
+	
+	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteAllEntries() {
 	
 		repository.deleteAll();
@@ -66,7 +90,7 @@ public class ApplicationParametersController {
 		return new ResponseEntity<>("All entries have been deleted!", HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/appParameter/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteEntry(@PathVariable long id) {
 	
 		repository.deleteById(id);
@@ -74,7 +98,7 @@ public class ApplicationParametersController {
 		return new ResponseEntity<>("Entry has been deleted!", HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/appParameter/create")
+	@PostMapping(value = "/create")
 	public ApplicationParameter postEntry(@RequestBody ApplicationParameter resource) {
 		ApplicationParameter _resource = repository.save(resource);
 		return _resource;

@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import com.inv.model.ApplicationParameter;
+import com.inv.model.Invoice;
 
 @Repository
 public interface ApplicationParameterRepo extends JpaRepository<com.inv.model.ApplicationParameter,Long> {
-
 
 	
 }

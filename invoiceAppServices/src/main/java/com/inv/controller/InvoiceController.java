@@ -30,7 +30,7 @@ import com.inv.repo.InvoiceRepo;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/invoice")
+@RequestMapping("/invoice")
 public class InvoiceController {
 	
 	@Autowired
@@ -54,10 +54,36 @@ public class InvoiceController {
 	        }
 		  }
 
-	@GetMapping(value = "/getInvoice/{invoiceNumber}")
+	@GetMapping(value = "/getByInvoiceNumber/{invoiceNumber}")
 	public ResponseEntity<Invoice> findById(@PathVariable String invoiceNumber) {
 
 		Optional<Invoice> data = repository.findByInvoiceNumber(invoiceNumber);
+		if (data.isPresent())
+		{
+			Invoice invoice = data.get();
+			
+			return new ResponseEntity<Invoice>(invoice, HttpStatus.OK); 
+		}
+		
+		else {
+			  return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+			  } 
+		}
+
+//	
+//	@GetMapping("/lastInvoiceNumber/{sequence}")
+//	public String lastInvoiceNumber(@PathVariable String sequence) {
+//
+//	Invoice invoice = repository.findTopByInvoiceDate();
+//					
+//	return invoice.invoiceNumber;
+//	}
+	
+	
+	@GetMapping(value = "/getById/{id}")
+	public ResponseEntity<Invoice> findById(@PathVariable Long id) {
+
+		Optional<Invoice> data = repository.findById(id);
 		if (data.isPresent())
 		{
 			Invoice invoice = data.get();
@@ -110,7 +136,10 @@ public class InvoiceController {
 		Optional<Invoice> invoiceDB = repository.findById(id);
 
 		if (invoiceDB.isPresent()) {
-		//	Invoice _invoice = invoiceDB.get();
+		Invoice _invoice = invoiceDB.get();
+		
+		
+		
 		return new ResponseEntity<Invoice>(repository.save(invoice), HttpStatus.OK);
 		} 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);

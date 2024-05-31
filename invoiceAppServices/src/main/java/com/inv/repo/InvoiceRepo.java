@@ -35,6 +35,8 @@ public interface InvoiceRepo extends PagingAndSortingRepository<com.inv.model.In
 	 
 	List<Invoice> findByInvoiceDateBetween(Date start, Date end);
 
+	//public Invoice findTopByInvoiceDate();
+
 
 	
 	

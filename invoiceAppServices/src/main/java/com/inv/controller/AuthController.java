@@ -123,9 +123,15 @@ package com.inv.controller;
 				profileFromDB.password ="";	
 				profileFromDB.apiResponse.responseBool = true;
 			}
+			else
+			{
+				profileFromDB.apiResponse.errorCode = (long) 603;
+				profileFromDB.apiResponse.responseBool = false;
+				profileFromDB.apiResponse.errorString ="Wrong credentials";
+			}
 			}
 			else {
-				profileFromDB.apiResponse.errorCode = (long) 603;
+				profileFromDB.apiResponse.errorCode = (long) 604;
 				profileFromDB.apiResponse.responseBool = false;
 				profileFromDB.apiResponse.errorString ="User not present";
 				}
@@ -162,7 +168,7 @@ package com.inv.controller;
 				return new ResponseEntity<APIResponse>(apiResponse, HttpStatus.OK);
 			}
 			apiResponse.responseBool = false;
-			apiResponse.errorCode = (long) 603;
+			apiResponse.errorCode = (long) 605;
 			apiResponse.errorString = "Data Issue";
 			return new ResponseEntity<APIResponse>(apiResponse, HttpStatus.NOT_IMPLEMENTED);
 			
@@ -186,7 +192,7 @@ package com.inv.controller;
 	
 	    @PostMapping("/changePassword")
 	    public Profile changePassword(@RequestBody Profile profile) {
-
+	    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	    	Profile	profileFromDB = new Profile();
 			Optional<Profile> option = service.findByEmail(profile.email);
 				
@@ -194,9 +200,11 @@ package com.inv.controller;
 			
 				profileFromDB = option.get();
 				
-				if(profile.password == profile.changedNewPassword)
+				
+				
+				if(passwordEncoder.matches(profileFromDB.password, profile.password))
 				{
-					BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+					
 					profileFromDB.password = passwordEncoder.encode(profile.changedNewPassword);
 					profileFromDB = service.save(profileFromDB);
 					profile.password="";
@@ -204,16 +212,16 @@ package com.inv.controller;
 					profile.apiResponse.responseBool = true;
 				}
 				else {
-					profile.apiResponse.errorCode = (long) 604;
+					profile.apiResponse.errorCode = (long) 606;
 					profile.apiResponse.responseBool = false;
-					profile.apiResponse.errorString ="Old & new Password doesnt match";
+					profile.apiResponse.errorString ="Old password provided is wrong";
 				}
 			}
 			else {
-				profile.apiResponse.errorCode = (long) 603;
+				profile.apiResponse.errorCode = (long) 604;
 				profile.apiResponse.responseBool = false;
 				profile.apiResponse.errorString ="User not present";
-				}
+			}
 			return profile;
 	
 	}
