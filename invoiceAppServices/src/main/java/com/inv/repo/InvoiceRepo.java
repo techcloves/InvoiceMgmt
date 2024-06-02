@@ -19,7 +19,7 @@ public interface InvoiceRepo extends PagingAndSortingRepository<com.inv.model.In
 
 	
 
-	public static final String SEARCH_QUERY = "SELECT * FROM INVOICE WHERE LOWER(CONCAT(INVOICE_NUMBER, ' ', INVOICE_DATE, ' ', SOLD_TO, ' ', SHIP_TO,' ', SALESMAN, ' ', ORDER_NUMBER, ' ', CUST_ORDER_NUMBER, ' ')) LIKE LOWER(concat('%', ?1, '%')) AND CHECKED_IN=true";
+	public static final String SEARCH_QUERY = "SELECT * FROM INVOICE WHERE LOWER(CONCAT(INVOICE_NUMBER, ' ', INVOICE_DATE, ' ', SOLD_TO, ' ', SHIP_TO,' ', SALESMAN, ' ', ORDER_NUMBER, ' ', CUST_ORDER_NUMBER, ' ')) LIKE LOWER(concat('%', ?1, '%'))";
 	@Query(value = SEARCH_QUERY, nativeQuery = true)
 	public ArrayList<Invoice> searchInvoice(String searchField);
 	
