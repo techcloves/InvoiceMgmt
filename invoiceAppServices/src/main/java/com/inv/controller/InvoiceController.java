@@ -36,6 +36,13 @@ public class InvoiceController {
 	@Autowired
 	InvoiceRepo repository;
 	
+	@GetMapping("/getInvoicesCount")
+	public Long getInvoicesCount() {
+  
+    return repository.count();
+		  
+		  }
+	
 	@GetMapping("/getPagedInvoices")
 	public List<Invoice> getPagedInvoices(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "60") int size) {
