@@ -50,7 +50,7 @@ import jakarta.persistence.OneToOne;
 		public String frieightDescription;
 		public Float totalPreTax;
 		public Float totalAfterTax;
-		
+		public String specialInstructions;
 
 	//	public ArrayList<InvoiceLineItems> invoiceLineItems;
 		
