@@ -1,5 +1,6 @@
 package com.inv.mgmt.scheduller;
 
+import org.h2.tools.RunScript;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,17 +37,19 @@ public class TaskScheduller {
 	    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
    
-//	    // To write DB Backup Once a Week 2 AM Every Saturday
-//	    @Scheduled(cron = "0 0 2 * * SAT") 
-//	      public void backupH2() {
-//
-//	        try {
-//	        	
-//	        	RunScript.execute(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"),env.getProperty("backupFileLocation"), Charset.defaultCharset(), true);
-//	            logger.info("H2 is backed up from the cron scheduller");
-//	        } catch (SQLException e) {
-//	        	logger.info("Cannot backup H2. Cause: {}", e.getMessage());
-//	        }
-//	    }
+	    // To write DB Backup Once a Week 2 AM Every Saturday
+	    @Scheduled(cron = "0 0 2 * * SAT") 
+	   // @Scheduled(fixedRate = 1000) 
+	  //  @Scheduled(cron = "0 * * * * *")
+	    public void backupH2() {
+
+	        try {
+	        	System.out.print("***********************************");
+	        	RunScript.execute(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"),env.getProperty("backupFileLocation"), Charset.defaultCharset(), true);
+	            logger.info("H2 is backed up from the cron scheduller");
+	        } catch (SQLException e) {
+	        	logger.info("Cannot backup H2. Cause: {}", e.getMessage());
+	        }
+	    }
 	    
 	}

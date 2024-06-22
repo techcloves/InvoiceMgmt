@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.inv.controller.AuthController;
 import com.inv.model.Profile;
 
 @SpringBootApplication
+@EnableScheduling
 public class InvoiceAppServicesApplication extends SpringBootServletInitializer{
 	
 	@Autowired
