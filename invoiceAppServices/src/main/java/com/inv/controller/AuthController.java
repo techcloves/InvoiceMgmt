@@ -49,7 +49,7 @@ package com.inv.controller;
 
 
 
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin
 	@RestController
 	@RequestMapping("/auth")   
 
